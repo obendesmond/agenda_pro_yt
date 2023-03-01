@@ -5,6 +5,7 @@ import Icon from "./Icon";
 import { BsQuestionCircleFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { BiHide } from "react-icons/bi";
+import AgendaSingle from "./AgendaSingle";
 
 const Agenda = () => {
   const [show, setShow] = useState(false);
@@ -12,7 +13,7 @@ const Agenda = () => {
   return (
     <div className="flex-[0.5] bg-greyColor w-full">
       {/* agenda header */}
-      <div className="bg-white flex flex-row items-center justify-end pr-10 gap-2 py-3 w-full shadow-md">
+      <div className="bg-white top-0 sticky flex flex-row items-center justify-end pr-10 gap-2 py-3 w-full shadow-md">
         <Icon
           click={() => setShow(!show)}
           color={show ? "red" : "blue"}
@@ -54,7 +55,16 @@ const Agenda = () => {
           </div>
         ) : (
           <div>
-            <p className="text-4xl mb-5">All my Agenda</p>
+            <p className="text-4xl mb-5">All My Agenda</p>
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
+            <AgendaSingle />
           </div>
         )}
       </div>

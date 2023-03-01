@@ -36,7 +36,7 @@ const AgendaForm = () => {
 
 
   return (
-    <div className="flex-[0.5] h-[100vh] w-full" style={{
+    <div className="flex-[0.5] h-[100vh] w-full top-0 sticky z-10" style={{
         background:`url(${bgImage})`,
         backgroundPosition:"top right",
         backgroundSize:"cover",

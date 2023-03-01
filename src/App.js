@@ -1,10 +1,13 @@
 import React from "react"
+import Agenda from "./components/Agenda"
+import AgendaForm from "./components/AgendaForm"
 
 const App = () => {
 
     return (
-        <div>
-            <h1 className="text-red-600">Agenda Pro</h1>
+        <div className="flex flex-col md:flex-row">
+           <AgendaForm />
+           <Agenda />
         </div>
     )
 }

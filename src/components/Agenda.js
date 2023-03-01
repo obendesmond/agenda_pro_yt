@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CircularIcon from "./CircularIcon";
 import { MdCloudDownload } from "react-icons/md";
 import Icon from "./Icon";
@@ -6,9 +6,18 @@ import { BsQuestionCircleFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { BiHide } from "react-icons/bi";
 import AgendaSingle from "./AgendaSingle";
+import { getAllAgenda } from "../store/actions/agendaActions";
+import {useDispatch, useSelector} from "react-redux"
 
 const Agenda = () => {
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch()
+  const { agendaList } = useSelector(state => state.agenda);
+
+  useEffect(() => {
+    dispatch(getAllAgenda());
+  },[dispatch])
+  
 
   return (
     <div className="flex-[0.5] bg-greyColor w-full">
@@ -56,15 +65,9 @@ const Agenda = () => {
         ) : (
           <div>
             <p className="text-4xl mb-5">All My Agenda</p>
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
-            <AgendaSingle />
+            {agendaList.map(agenda => (
+              <AgendaSingle key={agenda.id} agenda={agenda} />
+            ))}
           </div>
         )}
       </div>

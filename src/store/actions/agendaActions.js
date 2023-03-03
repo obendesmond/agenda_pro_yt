@@ -56,3 +56,15 @@ export const updateAgenda = (id) => dispatch => {
        console.log(error);
      }
 }
+
+// deleteAll agenda
+export const deleteAllAgenda = () => dispatch => {
+     try {
+       dispatch({ type: "DELETE_ALL_AGENDA_REQUEST" });
+       // DELETE_ALL agenda to db here
+       dispatch({ type: "DELETE_ALL_AGENDA_SUCCESS"});
+     } catch (error) {
+       dispatch({ type: "DELETE_ALL_AGENDA_FAIL" });
+       console.log(error);
+     }
+}

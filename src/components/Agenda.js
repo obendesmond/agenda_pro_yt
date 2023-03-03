@@ -6,7 +6,7 @@ import { BsQuestionCircleFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { BiHide } from "react-icons/bi";
 import AgendaSingle from "./AgendaSingle";
-import { getAllAgenda } from "../store/actions/agendaActions";
+import { deleteAllAgenda, getAllAgenda } from "../store/actions/agendaActions";
 import {useDispatch, useSelector} from "react-redux"
 
 const Agenda = () => {
@@ -17,6 +17,12 @@ const Agenda = () => {
   useEffect(() => {
     dispatch(getAllAgenda());
   },[dispatch])
+
+  const handleDeleteAll = () => {
+    if(window.confirm("Are you sure to delete all Agenda?")){
+      dispatch(deleteAllAgenda());
+    }
+  }
   
 
   return (
@@ -28,7 +34,7 @@ const Agenda = () => {
           color={show ? "red" : "blue"}
           Icon={show ? BiHide : BsQuestionCircleFill}
         />
-        <Icon Icon={MdDelete} />
+        <Icon click={() => handleDeleteAll()} Icon={MdDelete} />
         <CircularIcon Icon={MdCloudDownload} />
       </div>
 

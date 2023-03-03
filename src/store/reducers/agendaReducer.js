@@ -32,7 +32,6 @@ export const agendaReducer = (state = initialState, action) => {
         } else {
             return { ...state, agendaList: [payL, ...state.agendaList], second_loading:false, currentAgendaEdit:{} };
         }
-
     case "ADD_AGENDA_FAIL":
         return {...state, second_loading:false}
 
@@ -54,6 +53,13 @@ export const agendaReducer = (state = initialState, action) => {
     case "UPDATE_AGENDA_FAIL":
         return {...state, fourth_loading:false}
 
+    case "DELETE_ALL_AGENDA_REQUEST":
+        return {...state, fifth_loading:true}
+    case "DELETE_ALL_AGENDA_SUCCESS":
+        return {...state, agendaList:[], fifth_loading:false}
+    case "DELETE_ALL_AGENDA_FAIL":
+        return {...state, fifth_loading:false}
+
     default:
       return state;
   }
@@ -61,7 +67,6 @@ export const agendaReducer = (state = initialState, action) => {
 
 /**
  *
- * UPDATE_AGENDA (id)
  *
  * DELETE_ALL_AGENDA
  *

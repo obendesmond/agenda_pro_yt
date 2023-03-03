@@ -1,5 +1,6 @@
 
 import agendaListData from '../agendaListData';
+import { v4 as uuidv4 } from "uuid";
 
 // get all agenda
 export const getAllAgenda = () => dispatch => {
@@ -21,7 +22,11 @@ export const addAgenda = (agenda) => dispatch => {
     try {
         dispatch({type:"ADD_AGENDA_REQUEST"})
         // add agenda to db here
-        dispatch({type:"ADD_AGENDA_SUCCESS", payload:agenda})
+
+        // include id to agenda if it doesn't exist
+        const payload = agenda.id ? agenda : {...agenda, id:uuidv4()}
+
+        dispatch({type:"ADD_AGENDA_SUCCESS", payload})
     } catch (error) {
         dispatch({ type: "ADD_AGENDA_FAIL" });
         console.log(error);
@@ -38,4 +43,16 @@ export const deleteAgenda = (id) => dispatch => {
         dispatch({ type: "DELETE_AGENDA_FAIL" });
         console.log(error);
     }
+}
+
+// update agenda
+export const updateAgenda = (id) => dispatch => {
+     try {
+       dispatch({ type: "UPDATE_AGENDA_REQUEST" });
+       // UPDATE agenda to db here
+       dispatch({ type: "UPDATE_AGENDA_SUCCESS", payload: id });
+     } catch (error) {
+       dispatch({ type: "UPDATE_AGENDA_FAIL" });
+       console.log(error);
+     }
 }

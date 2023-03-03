@@ -1,28 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "./Input";
 import TextArea from "./TextArea";
 import Button from "./Button";
 import { MdAdd, MdCloudUpload } from "react-icons/md";
 import bgImage from "../assets/agenda_bg.jpeg"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addAgenda } from "../store/actions/agendaActions";
 
 const AgendaForm = () => {
   const dispatch = useDispatch()
+  const { currentAgendaEdit } = useSelector(state => state.agenda);
   const [subject, setSubject] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+   if(currentAgendaEdit?.id){
+    const {subject, time, location, description} = currentAgendaEdit;
+    setSubject(subject)
+    setTime(time)
+    setLocation(location)
+    setDescription(description)
+   }
+  }, [currentAgendaEdit]);
+
   const handleOnClick = () => {
     const agenda = {
-      time: time.trim(),
       subject: subject.trim(),
+      time: time.trim(),
       location: location.trim(),
       description: description.trim(),
     };
+
     if (!time.trim() || !subject.trim())
       return alert("Atlease enter a subject and a time!");
+
+      // set agenda id to current agenda id in edit mode
+    if(currentAgendaEdit?.id) agenda.id = currentAgendaEdit.id
 
     // add to redux store
     dispatch(addAgenda(agenda))
@@ -30,7 +45,6 @@ const AgendaForm = () => {
     //   reset
     reset();
   };
-
 
   const reset = () => {
     setSubject("");
@@ -41,11 +55,14 @@ const AgendaForm = () => {
 
 
   return (
-    <div className="flex-[0.5] h-[100vh] w-full top-0 sticky z-10" style={{
-        background:`url(${bgImage})`,
-        backgroundPosition:"top right",
-        backgroundSize:"cover",
-    }}>
+    <div
+      className="flex-[0.5] h-[100vh] w-full top-0 sticky z-10"
+      style={{
+        background: `url(${bgImage})`,
+        backgroundPosition: "top right",
+        backgroundSize: "cover",
+      }}
+    >
       <div className="h-full flex flex-col items-center justify-center gap-10">
         <p className="text-4xl text-white">Keep Track Of Your Day</p>
 
@@ -72,7 +89,11 @@ const AgendaForm = () => {
             placeholder="Enter Description (Optional)"
           />
 
-          <Button onClick={handleOnClick} text="Add Agenda" Icon={MdAdd} />
+          <Button
+            onClick={handleOnClick}
+            text={currentAgendaEdit?.id ? "Save Agenda" : "Add Agenda"}
+            Icon={MdAdd}
+          />
           <p className="text-center">or</p>
           <Button text="Choose CSV File" Icon={MdCloudUpload} />
         </div>

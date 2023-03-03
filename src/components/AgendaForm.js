@@ -4,8 +4,11 @@ import TextArea from "./TextArea";
 import Button from "./Button";
 import { MdAdd, MdCloudUpload } from "react-icons/md";
 import bgImage from "../assets/agenda_bg.jpeg"
+import { useDispatch } from 'react-redux';
+import { addAgenda } from "../store/actions/agendaActions";
 
 const AgendaForm = () => {
+  const dispatch = useDispatch()
   const [subject, setSubject] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
@@ -22,10 +25,12 @@ const AgendaForm = () => {
       return alert("Atlease enter a subject and a time!");
 
     // add to redux store
-    
+    dispatch(addAgenda(agenda))
+
     //   reset
-    reset()
+    reset();
   };
+
 
   const reset = () => {
     setSubject("");

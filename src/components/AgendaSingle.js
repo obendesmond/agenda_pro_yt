@@ -1,9 +1,12 @@
 import React from 'react'
 import Icon from './Icon'
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { useDispatch } from 'react-redux';
+import { deleteAgenda } from '../store/actions/agendaActions';
 
 const AgendaSingle = ({agenda}) => {
-    const {subject, time, location, description} = agenda
+    const {id,subject, time, location, description} = agenda
+    const dispatch = useDispatch()
     
   return (
     <div className="flex flex-col mb-5 gap-2 w-full bg-white border-blueColor border-l-[15px] p-5 rounded-2xl">
@@ -21,7 +24,7 @@ const AgendaSingle = ({agenda}) => {
           <p className="text-gray-600 text-[12px]">{time}</p>
           <p className="text-gray-600 text-[12px]">{location}</p>
         </div>
-        <Icon Icon={MdDelete} size={20} />
+        <Icon click={() => dispatch(deleteAgenda(id))} Icon={MdDelete} size={20} />
       </div>
     </div>
   );

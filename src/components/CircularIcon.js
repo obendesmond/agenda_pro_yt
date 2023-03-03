@@ -1,8 +1,8 @@
 import React from 'react'
 
-const CircularIcon = ({Icon}) => {
+const CircularIcon = ({Icon, onClick}) => {
   return (
-    <span className='bg-white p-2 cursor-pointer rounded-full hover:drop-shadow-md'>
+    <span onClick={onClick} className='bg-white p-2 cursor-pointer rounded-full hover:drop-shadow-md'>
         <Icon size={25} />
     </span>
   )

@@ -8,10 +8,25 @@ import { BiHide } from "react-icons/bi";
 import AgendaSingle from "./AgendaSingle";
 import { deleteAllAgenda, getAllAgenda } from "../store/actions/agendaActions";
 import {useDispatch, useSelector} from "react-redux"
+import { ExportToCsv } from "export-to-csv";
+
+const options = {
+  fieldSeparator: ",",
+  quoteStrings: '"',
+  decimalSeparator: ".",
+  showLabels: true,
+  showTitle: false,
+  useTextFile: false,
+  useBom: true,
+  useKeysAsHeaders: true,
+  filename: "my-agenda-pro",
+  // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+};
 
 const Agenda = () => {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch()
+  const csvExporter = new ExportToCsv(options);
   const { agendaList } = useSelector(state => state.agenda);
 
   useEffect(() => {
@@ -22,6 +37,18 @@ const Agenda = () => {
     if(window.confirm("Are you sure to delete all Agenda?")){
       dispatch(deleteAllAgenda());
     }
+  }
+
+  const handleDownloadtoCsv = () => {
+    if(agendaList.length > 0){
+
+      const newAgenda = agendaList.map(agenda => {
+        delete agenda.id
+        return agenda
+      })
+
+      csvExporter.generateCsv(newAgenda);
+    } else alert("Add atleast one agenda before exporting!")
   }
   
 
@@ -35,7 +62,7 @@ const Agenda = () => {
           Icon={show ? BiHide : BsQuestionCircleFill}
         />
         <Icon click={() => handleDeleteAll()} Icon={MdDelete} />
-        <CircularIcon Icon={MdCloudDownload} />
+        <CircularIcon onClick={handleDownloadtoCsv} Icon={MdCloudDownload} />
       </div>
 
       <div className="p-10">
@@ -70,7 +97,7 @@ const Agenda = () => {
           </div>
         ) : (
           <div>
-            <p className="text-4xl mb-5">All My Agenda</p>
+            <p className="text-4xl mb-5">{agendaList.length > 0 ? "All My Agenda" : "No Agenda, Add Some."}</p>
             {agendaList.map(agenda => (
               <AgendaSingle key={agenda.id} agenda={agenda} />
             ))}
